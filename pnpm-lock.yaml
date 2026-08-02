@@ -8,6 +8,8 @@ importers:
 
   .: {}
 
+  packages/device-core: {}
+
   packages/epub-core:
     dependencies:
       adm-zip:
@@ -17,7 +19,39 @@ importers:
         specifier: ^5.2.5
         version: 5.10.1
 
+  packages/library-core:
+    dependencies:
+      '@kindred/metadata-core':
+        specifier: workspace:*
+        version: link:../metadata-core
+
   packages/metadata-core: {}
+
+  packages/metadata-engine:
+    dependencies:
+      '@kindred/metadata-core':
+        specifier: workspace:*
+        version: link:../metadata-core
+
+  packages/plugin-core: {}
+
+  packages/provider-google-books:
+    dependencies:
+      '@kindred/metadata-core':
+        specifier: workspace:*
+        version: link:../metadata-core
+      '@kindred/plugin-core':
+        specifier: workspace:*
+        version: link:../plugin-core
+
+  packages/provider-open-library:
+    dependencies:
+      '@kindred/metadata-core':
+        specifier: workspace:*
+        version: link:../metadata-core
+      '@kindred/plugin-core':
+        specifier: workspace:*
+        version: link:../plugin-core
 
   packages/ui:
     dependencies:
