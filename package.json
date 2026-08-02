@@ -1,7 +1,7 @@
 {
   "name": "kindred",
   "private": true,
-  "version": "0.17.0",
+  "version": "0.19.0",
   "type": "module",
   "packageManager": "pnpm@10.15.0",
   "scripts": {
@@ -9,7 +9,7 @@
     "install:all": "pnpm install",
     "build": "pnpm --filter kindred-web build",
     "start": "pnpm --filter kindred-server start",
-    "test": "pnpm --filter @kindred/epub-core test",
+    "test": "pnpm -r --if-present test",
     "check": "pnpm test && pnpm build"
   }
 }
