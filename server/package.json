@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",
-    "mtp:probe": "node scripts/mtp-probe.js"
+    "mtp:probe": "node scripts/mtp-probe.js",
+    "test": "node --test"
   },
   "dependencies": {
     "adm-zip": "^0.5.16",
@@ -12,7 +13,8 @@
     "express": "^5.1.0",
     "fast-xml-parser": "^5.2.5",
     "webmtp": "0.3.3",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "@kindred/metadata-service": "workspace:*"
   },
   "version": "0.17.0"
 }
