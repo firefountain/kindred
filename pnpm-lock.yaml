@@ -17,6 +17,17 @@ importers:
         specifier: ^5.2.5
         version: 5.10.1
 
+  packages/metadata-core: {}
+
+  packages/ui:
+    dependencies:
+      lucide-vue-next:
+        specifier: ^0.468.0
+        version: 0.468.0(vue@3.5.40)
+      vue:
+        specifier: ^3.5.0
+        version: 3.5.40
+
   server:
     dependencies:
       adm-zip:
@@ -40,6 +51,9 @@ importers:
 
   web:
     dependencies:
+      '@kindred/ui':
+        specifier: workspace:*
+        version: link:../packages/ui
       '@vitejs/plugin-vue':
         specifier: ^5.2.4
         version: 5.2.4(vite@6.4.3)(vue@3.5.40)
