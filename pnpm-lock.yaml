@@ -33,6 +33,21 @@ importers:
         specifier: workspace:*
         version: link:../metadata-core
 
+  packages/metadata-service:
+    dependencies:
+      '@kindred/metadata-engine':
+        specifier: workspace:*
+        version: link:../metadata-engine
+      '@kindred/plugin-core':
+        specifier: workspace:*
+        version: link:../plugin-core
+      '@kindred/provider-google-books':
+        specifier: workspace:*
+        version: link:../provider-google-books
+      '@kindred/provider-open-library':
+        specifier: workspace:*
+        version: link:../provider-open-library
+
   packages/plugin-core: {}
 
   packages/provider-google-books:
