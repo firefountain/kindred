@@ -24,8 +24,14 @@ const normalizeIsbn = value => {
 };
 
 function openZip(input) {
+  const isOpenArchive =
+    input &&
+    typeof input.getEntry === 'function' &&
+    typeof input.getEntries === 'function' &&
+    typeof input.toBuffer === 'function';
+
   try {
-    return input instanceof AdmZip ? input : new AdmZip(input);
+    return isOpenArchive ? input : new AdmZip(input);
   } catch (error) {
     throw new Error(`Invalid EPUB archive: ${error.message}`);
   }

@@ -31,7 +31,11 @@ function fixture() {
 }
 
 test('reads embedded EPUB metadata and cover', () => {
-  const book = readEpub(fixture());
+  const archive = new AdmZip(fixture());
+  assert.ok(archive.getEntry('META-INF/container.xml'));
+
+  // Regression: already-open archives must not be reopened as empty archives.
+  const book = readEpub(archive);
   assert.equal(book.metadata.title, 'Old title');
   assert.deepEqual(book.metadata.authors, ['Old Author']);
   assert.equal(book.metadata.isbn, '9780307351937');
