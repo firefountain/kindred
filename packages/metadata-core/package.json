@@ -1,8 +1,10 @@
 {
-  "name": "@kindred/device-core",
+  "name": "@kindred/metadata-core",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "exports": "./src/index.js",
-  "scripts": { "test": "node --test" }
+  "scripts": {
+    "test": "node --test"
+  }
 }
