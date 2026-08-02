@@ -9,6 +9,7 @@ import AdmZip from 'adm-zip';
 import { XMLParser } from 'fast-xml-parser';
 import { scanKindleMtp, syncCalibreMetadataToKindle, uploadBookToKindle } from './kindleMtp.js';
 import { createLibraryStore } from './libraryStore.js';
+import { createMetadataRouter } from './metadataApi.js';
 
 const app = express();
 const PORT = Number(process.env.PORT || 4311);
@@ -996,6 +997,8 @@ app.post('/api/v1/metadata/search', async (req, res) => {
   try { return res.json(await searchMetadataForItem(item)); }
   catch (error) { return res.status(500).json({ error: error.message, items: [] }); }
 });
+
+app.use('/api/v2/metadata', createMetadataRouter());
 
 // Compatibility endpoints for the early POC clients.
 app.get('/api/device', (_req, res) => {
