@@ -18,68 +18,67 @@ function emptyState() {
   };
 }
 
-const state = reactive(emptyState());
-let requestSequence = 0;
-let activeController = null;
-
-function beginRequest(mode, bookId = null) {
-  requestSequence += 1;
-  activeController?.abort();
-  activeController = new AbortController();
-
-  state.searching = mode === 'search';
-  state.enriching = mode === 'enrich';
-  state.activeBookId = bookId;
-  state.transportError = null;
-
-  return {
-    id: requestSequence,
-    signal: activeController.signal,
-  };
-}
-
-function finishRequest(requestId) {
-  if (requestId !== requestSequence) return;
-  state.searching = false;
-  state.enriching = false;
-}
-
-function applyResult(payload) {
-  state.result = payload;
-  state.candidates = payload?.candidates || [];
-  state.providers = payload?.providers || [];
-  state.conflicts = payload?.conflicts || [];
-  state.coverCandidates = payload?.coverCandidates || [];
-  state.errors = payload?.errors || [];
-  state.selectedCover = payload?.metadata?.cover || state.coverCandidates[0] || null;
-}
-
-async function run(mode, operation, context = {}) {
-  const request = beginRequest(mode, context.bookId || null);
-
-  try {
-    const payload = await operation(request.signal);
-    if (request.id !== requestSequence) return null;
-    applyResult(payload);
-    return payload;
-  } catch (error) {
-    if (request.id !== requestSequence || error.name === 'AbortError') return null;
-    state.transportError = {
-      name: error.name,
-      message: error.message,
-      status: error.status || 0,
-      code: error.code || 'UNKNOWN_ERROR',
-      payload: error.payload || null,
-    };
-    throw error;
-  } finally {
-    finishRequest(request.id);
-  }
-}
-
 export function createMetadataStore(options = {}) {
   const search = options.search || searchMetadata;
   const enrich = options.enrich || enrichMetadata;
+  const state = reactive(emptyState());
+  let requestSequence = 0;
+  let activeController = null;
+
+  function beginRequest(mode, bookId = null) {
+    requestSequence += 1;
+    activeController?.abort();
+    activeController = new AbortController();
+
+    state.searching = mode === 'search';
+    state.enriching = mode === 'enrich';
+    state.activeBookId = bookId;
+    state.transportError = null;
+
+    return {
+      id: requestSequence,
+      signal: activeController.signal,
+    };
+  }
+
+  function finishRequest(requestId) {
+    if (requestId !== requestSequence) return;
+    state.searching = false;
+    state.enriching = false;
+  }
+
+  function applyResult(payload) {
+    state.result = payload;
+    state.candidates = payload?.candidates || [];
+    state.providers = payload?.providers || [];
+    state.conflicts = payload?.conflicts || [];
+    state.coverCandidates = payload?.coverCandidates || [];
+    state.errors = payload?.errors || [];
+    state.selectedCover = payload?.metadata?.cover || state.coverCandidates[0] || null;
+  }
+
+  async function run(mode, operation, context = {}) {
+    const request = beginRequest(mode, context.bookId || null);
+
+    try {
+      const payload = await operation(request.signal);
+      if (request.id !== requestSequence) return null;
+      applyResult(payload);
+      return payload;
+    } catch (error) {
+      if (request.id !== requestSequence || error.name === 'AbortError') return null;
+      state.transportError = {
+        name: error.name,
+        message: error.message,
+        status: error.status || 0,
+        code: error.code || 'UNKNOWN_ERROR',
+        payload: error.payload || null,
+      };
+      throw error;
+    } finally {
+      finishRequest(request.id);
+    }
+  }
 
   return {
     state: readonly(state),
