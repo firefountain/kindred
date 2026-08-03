@@ -2,8 +2,8 @@
   "name": "kindred-server",
   "type": "module",
   "scripts": {
-    "dev": "node --import ./src/mtpCleanupPatch.js --watch src/index.js",
-    "start": "node --import ./src/mtpCleanupPatch.js src/index.js",
+    "dev": "node --import ./src/mtpCleanupPatch.js --import ./src/importPipelineServerPatch.js --watch src/index.js",
+    "start": "node --import ./src/mtpCleanupPatch.js --import ./src/importPipelineServerPatch.js src/index.js",
     "mtp:probe": "node --import ./src/mtpCleanupPatch.js scripts/mtp-probe.js",
     "test": "node --test"
   },
